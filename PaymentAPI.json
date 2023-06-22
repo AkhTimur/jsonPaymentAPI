@@ -1,0 +1,3376 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PaymentAPI",
+    "description": "PaymentAPI",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/akh7865tim/PaymentAPIv1/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "https://api-rest-stage.mapcard.pro/api/v1/",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "tags": [
+    {
+      "name": "create"
+    },
+    {
+      "name": "authorize"
+    },
+    {
+      "name": "charge"
+    },
+    {
+      "name": "refund"
+    },
+    {
+      "name": "payout"
+    },
+    {
+      "name": "p2p"
+    },
+    {
+      "name": "void"
+    },
+    {
+      "name": "qrcData"
+    },
+    {
+      "name": "get"
+    },
+    {
+      "name": "chequeStatus"
+    },
+    {
+      "name": "getPublicKey"
+    }
+  ],
+  "paths": {
+    "/create": {
+      "post": {
+        "tags": [
+          "create"
+        ],
+        "summary": "Создание заказа (ордера)",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/create_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/authorize": {
+      "post": {
+        "tags": [
+          "authorize"
+        ],
+        "summary": "Холдирование средств",
+        "operationId": "authorize",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/authorize_body"
+              },
+              "examples": {
+                "cardExample": {
+                  "summary": "Данные о карте",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Card": {
+                      "Pan": "4111111111100023",
+                      "ExpiryMonth": 12,
+                      "ExpiryYear": 23,
+                      "Cvv": "123",
+                      "Holder": "HOLDER HOLDER"
+                    }
+                  }
+                },
+                "tokenExample": {
+                  "summary": "Токен",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Card": {
+                      "Token": "eb92e9cc-818c-4ecc-b3ec-9d1344b749ac"
+                    }
+                  }
+                },
+                "encryptedExample": {
+                  "summary": "Зашифрованные данные",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Card": {
+                      "Encrypted": "-"
+                    }
+                  }
+                },
+                "3DSv1Example-2": {
+                  "summary": "3DSv1 - второй вызов",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "ThreeDS": {
+                      "Res": "PaRes",
+                      "Ver3Ds": 1
+                    },
+                    "Card": {
+                      "Pan": "4111111111111111",
+                      "ExpiryMonth": 12,
+                      "ExpiryYear": 23,
+                      "Cvv": "123",
+                      "Holder": "HOLDER HOLDER"
+                    }
+                  }
+                },
+                "3DSv2Example-2": {
+                  "summary": "3DSv2 - второй вызов",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "ThreeDS": {
+                      "Res": "aadqqweqwew8e8qw",
+                      "Ver3Ds": 2,
+                      "ThreedsVer2": {
+                        "term_url": "https://url...",
+                        "browser_info": "json-browser-data",
+                        "accept_header": "application/json,application/jose;charset=utf-8",
+                        "color_depth": 24,
+                        "java_enabled": true,
+                        "javascript_enabled": true,
+                        "language": "ru-RU",
+                        "height": 1080,
+                        "width": 1920,
+                        "timezone": -300,
+                        "useragent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
+                        "window_height": 500,
+                        "window_width": 600
+                      }
+                    },
+                    "Card": {
+                      "Pan": "4111111111111111",
+                      "ExpiryMonth": 12,
+                      "ExpiryYear": 23,
+                      "Cvv": "123",
+                      "Holder": "HOLDER HOLDER"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                },
+                "examples": {
+                  "non3DSExample": {
+                    "summary": "non3DS",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "test3105231614122",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "AUTHORIZED"
+                      },
+                      "Authorize": {
+                        "Rrn": "123456789"
+                      },
+                      "Card": {
+                        "Id": 111,
+                        "PanMask": "4xxxxxxxxxxx0023",
+                        "ExpiryMonth": 12,
+                        "ExpiryYear": 23,
+                        "Holder": "HOLDER HOLDER",
+                        "Token": "7939291e-6964-47c8-8442-6a7df2ba5b6d"
+                      }
+                    }
+                  },
+                  "3DSv1-first": {
+                    "summary": "3DSv1-first",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "THREEDS_V1_AUTHORIZED"
+                      },
+                      "ThreeDS": {
+                        "AcsUrl": "https://api-stage.mapcard.pro/acs/2N1ZD83O7onzp2eLuIoDhuYgPbb",
+                        "Req": "2N1ZD41RQZjm0Mc2Eavfb3VkHTs",
+                        "Ver3Ds": 1,
+                        "ThreeDSKey": "2N1ZD83O7onzp2eLuIoDhuYgPbb"
+                      },
+                      "Card": {
+                        "Id": 333,
+                        "Token": "2560126b-5c06-40bc-ad59-a92e1a5fb6fb"
+                      }
+                    }
+                  },
+                  "3DSv2-first": {
+                    "summary": "3DSv2-first",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "THREEDS_V2_AUTHORIZED"
+                      },
+                      "ThreeDS": {
+                        "AcsUrl": "https://api-stage.mapcard.pro/acs/2N1ZD83O7onzp2eLuIoDhuYgPbb",
+                        "Creq": "2N1ZD41RQZjm0Mc2Eavfb3VkHTs",
+                        "Ver3Ds": 2,
+                        "ThreeDSKey": "2N1ZD83O7onzp2eLuIoDhuYgPbb",
+                        "ThreedsMethodURL": "https://...",
+                        "ThreedsMethodURLData": "asdjhwiur23612=="
+                      },
+                      "Card": {
+                        "Token": "2560126b-5c06-40bc-ad59-a92e1a5fb6fb"
+                      }
+                    }
+                  },
+                  "3DSv1-second": {
+                    "summary": "3DSv1-second",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "AUTHORIZED"
+                      },
+                      "Authorize": {
+                        "Rrn": "123456789"
+                      },
+                      "Card": {
+                        "Id": 111,
+                        "PanMask": "4xxxxxxxxxxx1111",
+                        "ExpiryMonth": 12,
+                        "ExpiryYear": 23,
+                        "Holder": "HOLDER HOLDER",
+                        "Token": "7939291e-6964-47c8-8442-6a7df2ba5b6d"
+                      }
+                    }
+                  },
+                  "3DSv2-second": {
+                    "summary": "3DSv2-second",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "AUTHORIZED"
+                      },
+                      "Authorize": {
+                        "Rrn": "123456789"
+                      },
+                      "Card": {
+                        "Id": 111,
+                        "PanMask": "4xxxxxxxxxxx1111",
+                        "ExpiryMonth": 12,
+                        "ExpiryYear": 23,
+                        "Holder": "HOLDER HOLDER",
+                        "Token": "7939291e-6964-47c8-8442-6a7df2ba5b6d"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "DUPLICATE_ORDER_ID",
+                        "ErrMessage": "Order number is used"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/charge": {
+      "post": {
+        "tags": [
+          "charge"
+        ],
+        "summary": "Списание средств",
+        "operationId": "charge",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/charge_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                },
+                "examples": {
+                  "charge": {
+                    "summary": "charge",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "CHARGED"
+                      },
+                      "Charge": {
+                        "Rrn": "123456789"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "ILLEGAL_ORDER_STATE",
+                        "ErrMessage": "An attempt to perform an invalid operation for the current payment status"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/refund": {
+      "post": {
+        "tags": [
+          "refund"
+        ],
+        "summary": "Возврат средств",
+        "description": "идемпотентный",
+        "operationId": "refund",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/refund_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                },
+                "examples": {
+                  "refund": {
+                    "summary": "refund",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "REFUNDED"
+                      },
+                      "Refund": {
+                        "NewAmount": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "ILLEGAL_ORDER_STATE",
+                        "ErrMessage": "An attempt to perform an invalid operation for the current payment status"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/payout": {
+      "post": {
+        "tags": [
+          "payout"
+        ],
+        "summary": "Расход средств",
+        "operationId": "payout",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/payout_body"
+              },
+              "examples": {
+                "cardExample": {
+                  "summary": "Данные о карте",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Amount": 1000,
+                    "Card": {
+                      "Pan": "4111111111100023",
+                      "ExpiryMonth": 12,
+                      "ExpiryYear": 23,
+                      "Cvv": "123",
+                      "Holder": "Ivan Ivanov"
+                    }
+                  }
+                },
+                "tokenExample": {
+                  "summary": "Токен",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Amount": 1000,
+                    "Card": {
+                      "Token": "s213sdffew344567"
+                    }
+                  }
+                },
+                "encryptedExample": {
+                  "summary": "Зашифрованные данные",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Amount": 1000,
+                    "Card": {
+                      "Encrypted": "-"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_4"
+                },
+                "examples": {
+                  "refund": {
+                    "summary": "payout",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "PAID"
+                      },
+                      "Payout": {
+                        "Rrn": "123456789"
+                      },
+                      "Card": {
+                        "Id": 111,
+                        "PanMask": "4xxxxxxxxxx00023",
+                        "Token": "4dbe8beb-96f1-4282-966c-9a35a3cebdbe"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "ILLEGAL_ORDER_STATE",
+                        "ErrMessage": "An attempt to perform an invalid operation for the current payment status"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/p2p": {
+      "post": {
+        "tags": [
+          "p2p"
+        ],
+        "summary": "Перевод средств на карту",
+        "operationId": "p2p",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/p2p_body"
+              },
+              "examples": {
+                "P2PCard": {
+                  "summary": "P2PCard",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Card": {
+                      "Pan": "4111111111100023",
+                      "ExpiryMonth": 12,
+                      "ExpiryYear": 23,
+                      "Cvv": "123",
+                      "Holder": "HOLDER HOLDER"
+                    }
+                  }
+                },
+                "P2PToken": {
+                  "summary": "P2PToken",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Card": {
+                      "Token": "eb92e9cc-818c-4ecc-b3ec-9d1344b749ac"
+                    }
+                  }
+                },
+                "P2PEncrypted": {
+                  "summary": "P2PEncrypted",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "Card": {
+                      "Encrypted": "-"
+                    }
+                  }
+                },
+                "P2P3DSv1": {
+                  "summary": "P2P3DSv1",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "ThreeDS": {
+                      "Res": "aadqqweqwew8e8qw",
+                      "Ver3Ds": 1
+                    }
+                  }
+                },
+                "P2P3DSv2": {
+                  "summary": "P2P3DSv2",
+                  "value": {
+                    "OrderId": "c01fdf17-5587-4c77-b3d4-4679a9ea6909",
+                    "ThreeDS": {
+                      "Res": "aadqqweqwew8e8qw",
+                      "Ver3Ds": 2,
+                      "ThreedsVer2": {
+                        "term_url": "https://url...",
+                        "browser_info": "json-browser-data",
+                        "accept_header": "application/json,application/jose;charset=utf-8",
+                        "color_depth": 24,
+                        "java_enabled": true,
+                        "javascript_enabled": true,
+                        "language": "ru-RU",
+                        "height": 1080,
+                        "width": 1920,
+                        "timezone": -300,
+                        "useragent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
+                        "window_height": 500,
+                        "window_width": 600
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_5"
+                },
+                "examples": {
+                  "p2p-FirstRequest": {
+                    "summary": "p2p-FirstRequest",
+                    "value": {
+                      "Card": {
+                        "Pan": "4111111111100023",
+                        "ExpiryMonth": 12,
+                        "ExpiryYear": 23,
+                        "Cvv": "123",
+                        "Holder": "Ivan Ivanov"
+                      },
+                      "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                      "Authorize": {
+                        "Rrn": "12345678"
+                      }
+                    }
+                  },
+                  "p2p3DSv1-SecondRequest": {
+                    "summary": "p2p3DSv1-SecondRequest",
+                    "value": {
+                      "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                      "ThreeDS": {
+                        "Res": "“aadqqweqwew8e8qw”",
+                        "Ver3Ds": 1
+                      }
+                    }
+                  },
+                  "p2p3DSv2-SecondRequest": {
+                    "summary": "p2p3DSv2-SecondRequest",
+                    "value": {
+                      "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                      "ThreeDS": {
+                        "Res": "“aadqqweqwew8e8qw”",
+                        "Ver3Ds": 2,
+                        "ThreeDSKey": "dasdsafg24",
+                        "ThreedsMethodURL": "https://...",
+                        "ThreedsMethodURLData": "asdjhwiur23612=="
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "ILLEGAL_ORDER_STATE",
+                        "ErrMessage": "An attempt to perform an invalid operation for the current payment status"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/void": {
+      "post": {
+        "tags": [
+          "void"
+        ],
+        "summary": "Отмена холдирования",
+        "operationId": "void",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/void_body"
+              },
+              "examples": {
+                "voidExample": {
+                  "summary": "Отмена Холдирования",
+                  "value": {
+                    "OrderId": "4dbe8beb-96f1-4282-966c-9a35a3cebdbe"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_6"
+                },
+                "examples": {
+                  "void": {
+                    "summary": "void",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "VOIDED"
+                      },
+                      "Void": {
+                        "Rrn": "123456789"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "ILLEGAL_ORDER_STATE",
+                        "ErrMessage": "An attempt to perform an invalid operation for the current payment status"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/qrcData": {
+      "post": {
+        "tags": [
+          "qrcData"
+        ],
+        "summary": "Регистрация QR кода в СБП",
+        "operationId": "qrcData",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "$ref": "#/components/schemas/qrcData_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_7"
+                },
+                "examples": {
+                  "Qrc": {
+                    "summary": "Qrc",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "IPS_ACCEPTED"
+                      },
+                      "Qrc": {
+                        "QrcId": "AD10005F9H1RUKG29P28KDJC8NBGKIRF",
+                        "Payload": "https://qr.nspk.ru/AD10005F9H1RUKG29P28KDJC8NBGKIRF?type=02&bank=120000000015&sum=9000&cur=RUB&crc=9382"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "IPS_REJECTED",
+                        "ErrMessage": "Invalid transaction amount"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/get": {
+      "post": {
+        "tags": [
+          "get"
+        ],
+        "summary": "Статус заказа",
+        "description": "идемпотентный",
+        "operationId": "get",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/get_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_8"
+                },
+                "examples": {
+                  "get": {
+                    "summary": "get",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "Order": {
+                        "OrderId": "d6952bff-e9bc-436a-bde5-d29e36e075b0",
+                        "MerchantOrderId": "123000012",
+                        "Currency": "643",
+                        "Amount": 300,
+                        "Status": "CHARGE_DECLINED",
+                        "PaymentInfo": {
+                          "Card": {
+                            "Id": 111,
+                            "Holder": "Ivan Ivanov",
+                            "PanMask": "4xxxxxxxxxx00023"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "ORDER_NOT_FOUND",
+                        "ErrMessage": "Order not found"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/chequeStatus": {
+      "post": {
+        "tags": [
+          "chequeStatus"
+        ],
+        "summary": "Доставка электронного чека",
+        "operationId": "chequeStatus",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/chequeStatus_body"
+              },
+              "examples": {
+                "chequeStatus": {
+                  "summary": "chequeStatus",
+                  "value": {
+                    "fp": 2035790870,
+                    "id": "bbaf8cdb-dbfe-4692-9b62-49ffa398e048",
+                    "change": 0,
+                    "ofdinn": 7728699517,
+                    "content": {
+                      "type": 3,
+                      "positions": [
+                        {
+                          "tax": 1,
+                          "text": "телефон",
+                          "price": 200,
+                          "quantity": 1,
+                          "paymentMethodType": 1,
+                          "paymentSubjectType": 1
+                        },
+                        {
+                          "tax": 1,
+                          "text": "очки",
+                          "price": 100,
+                          "quantity": 1,
+                          "paymentMethodType": 1,
+                          "paymentSubjectType": 1
+                        }
+                      ],
+                      "checkClose": {
+                        "payments": [
+                          {
+                            "type": 14,
+                            "amount": 300
+                          }
+                        ],
+                        "texationSystem": 0
+                      },
+                      "ffdVersion": 2,
+                      "customerContact": "smart.invent@gmail.com"
+                    },
+                    "ofdName": "ООО \"Ярус\" (\"ОФД-Я\")",
+                    "deviceRN": "0000000400054952",
+                    "deviceSN": "0252200028000335",
+                    "fsNumber": "9999078900001341",
+                    "companyINN": "9701015273",
+                    "fnsWebsite": "www.nalog.ru",
+                    "ofdWebsite": "www.ofd-ya.ru",
+                    "companyName": "ООО \"МАР\"",
+                    "processedAt": "2023-04-07T16:20:00",
+                    "shiftNumber:": 1234,
+                    "documentIndex": 1092,
+                    "documentNumber": 6534
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_9"
+                },
+                "examples": {
+                  "chequeStatus": {
+                    "summary": "chequeStatus",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "SET_CHEQUE_STATUS_ERROR",
+                        "ErrMessage": "Set cheque status problems"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/getPublicKey": {
+      "get": {
+        "tags": [
+          "getPublicKey"
+        ],
+        "summary": "Получение публичного ключа для криптограмм карт",
+        "operationId": "getPublicKey",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_10"
+                },
+                "examples": {
+                  "getPublicKey": {
+                    "summary": "getPublicKey",
+                    "value": {
+                      "Response": {
+                        "Success": true
+                      },
+                      "PublicKey": {
+                        "Key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlP5nmCCGtdJsMlMjWNGL\nXN7S8oRzK76/OpE/4z8h1K/P0vEIhM1RxOnH43zljBLiz17V3VtSwFkM5w/rlTqy\n6/raRAtx8DLaeyQCrnGL9fgMH1NU+CPW+wToibZMCSWaAF245ZBDepJCb/aVredt\nSA08A+iwLh3T2woBLJhS4B0UdsvkZFJjARJHO64NG8EW1hd7SAqoXHplQem0ori9\nWfygwx27O7CskSVfCp38A8AvAZUr0gFwDOFVmqVRjDdrYkssIbi3ovMJT92eel4+\nnPxAtK1Ko+CcfFG+967giV2JX78E4xS6YAdbtFkJYhmDJBXlKLeiXeKFGoEYDxWS\n8wIDAQAB\n-----END PUBLIC KEY-----"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error-response"
+                },
+                "examples": {
+                  "err": {
+                    "summary": "err",
+                    "value": {
+                      "Response": {
+                        "Success": false,
+                        "ErrCode": "GET_PUBLIC_KEY_ERROR",
+                        "ErrMessage": "Get public key problems"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Auth-FirstRequest": {
+        "required": [
+          "OrderId"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "c01fdf17-5587-4c77-b3d4-4679a9ea6909"
+          },
+          "Card": {
+            "type": "object",
+            "description": "Параметры карты",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Auth-request-card"
+              },
+              {
+                "$ref": "#/components/schemas/Auth-request-token"
+              },
+              {
+                "$ref": "#/components/schemas/Auth-request-encrypted"
+              }
+            ]
+          }
+        },
+        "description": "Non3DS"
+      },
+      "Auth3DSv1-SecondRequest": {
+        "required": [
+          "OrderId"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "c01fdf17-5587-4c77-b3d4-4679a9ea6909"
+          },
+          "ThreeDS": {
+            "$ref": "#/components/schemas/Auth3DSv1SecondRequest_ThreeDS"
+          },
+          "Card": {
+            "$ref": "#/components/schemas/Auth3DSv1SecondRequest_Card"
+          }
+        },
+        "description": "3DS"
+      },
+      "Auth3DSv2-SecondRequest": {
+        "required": [
+          "OrderId"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "c01fdf17-5587-4c77-b3d4-4679a9ea6909"
+          },
+          "ThreeDS": {
+            "$ref": "#/components/schemas/Auth3DSv2SecondRequest_ThreeDS"
+          }
+        },
+        "description": "3DS"
+      },
+      "Auth-request-card": {
+        "required": [
+          "Cvv",
+          "ExpiryMonth",
+          "ExpiryYear",
+          "Holder",
+          "Pan"
+        ],
+        "type": "object",
+        "properties": {
+          "Pan": {
+            "type": "string",
+            "description": "Номер карты",
+            "example": "4111111111100023"
+          },
+          "ExpiryMonth": {
+            "type": "integer",
+            "description": "Месяц истечения срока действия карты",
+            "format": "uint16",
+            "example": 12
+          },
+          "ExpiryYear": {
+            "type": "integer",
+            "description": "Год истечения срока действия карты.",
+            "format": "uint16",
+            "example": 23
+          },
+          "Cvv": {
+            "type": "string",
+            "description": "CVC2/CVV2. Параметр является опциональным.",
+            "example": "123"
+          },
+          "Holder": {
+            "type": "string",
+            "description": "Фамилия и имя держателя карты",
+            "example": "Ivan Ivanov"
+          }
+        },
+        "description": "Передача 5 параметров карты - Pan, ExpiryMonth, ExpiryYear, Cvv, Holder"
+      },
+      "Request-card": {
+        "required": [
+          "Pan"
+        ],
+        "type": "object",
+        "properties": {
+          "Pan": {
+            "type": "string",
+            "description": "Номер карты",
+            "example": "4111111111100023"
+          },
+          "ExpiryMonth": {
+            "type": "integer",
+            "description": "Месяц истечения срока действия карты",
+            "format": "uint16",
+            "example": 12
+          },
+          "ExpiryYear": {
+            "type": "integer",
+            "description": "Год истечения срока действия карты.",
+            "format": "uint16",
+            "example": 23
+          },
+          "Cvv": {
+            "type": "string",
+            "description": "CVC2/CVV2. Параметр является опциональным.",
+            "example": "123"
+          },
+          "Holder": {
+            "type": "string",
+            "description": "Фамилия и имя держателя карты",
+            "example": "Ivan Ivanov"
+          }
+        },
+        "description": "Передача 5 параметров карты - Pan, ExpiryMonth, ExpiryYear, Cvv, Holder"
+      },
+      "Auth-request-token": {
+        "required": [
+          "Token"
+        ],
+        "type": "object",
+        "properties": {
+          "Token": {
+            "type": "string",
+            "description": "Идентификатор карты в процессингe."
+          }
+        },
+        "description": "Передача параметра Token"
+      },
+      "Auth-request-encrypted": {
+        "required": [
+          "Encrypted"
+        ],
+        "type": "object",
+        "properties": {
+          "Encrypted": {
+            "type": "string",
+            "description": "Данные карты зашифрованные публичным ключом"
+          }
+        },
+        "description": "Передача параметра Encrypted"
+      },
+      "Auth-responseNON3DS-FirstRequest": {
+        "required": [
+          "Order",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Order"
+          },
+          "Authorize": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Authorize"
+          },
+          "Card": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Card"
+          }
+        }
+      },
+      "Auth-response3DSv1-FirstRequest": {
+        "required": [
+          "Card",
+          "Order",
+          "Response",
+          "ThreeDS"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Order"
+          },
+          "ThreeDS": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_ThreeDS"
+          },
+          "Card": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Card"
+          }
+        }
+      },
+      "Auth-response3DSv2-FirstRequest": {
+        "required": [
+          "Card",
+          "Order",
+          "Response",
+          "ThreeDS"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Order"
+          },
+          "ThreeDS": {
+            "$ref": "#/components/schemas/Authresponse3DSv2FirstRequest_ThreeDS"
+          },
+          "Card": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Card"
+          }
+        }
+      },
+      "Auth-response3DSv1-SecondRequest": {
+        "required": [
+          "Order",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Order"
+          },
+          "Authorize": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Authorize"
+          },
+          "Card": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Card"
+          }
+        }
+      },
+      "Auth-response3DSv2-SecondRequest": {
+        "required": [
+          "Order",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Order"
+          },
+          "Authorize": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Authorize"
+          },
+          "Card": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Card"
+          }
+        }
+      },
+      "CheckPayment": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "integer",
+            "description": "Тип оплаты: 1 – сумма по чеку наличными, 2 – сумма по чеку безналичными, 14 – сумма по чеку предоплатой (зачетом аванса и (или) предыдущих платежей), 15 – сумма по чеку постоплатой (в кредит), 16 – сумма по чеку (БСО) встречным предоставлением",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "integer",
+            "description": "Сумма оплаты",
+            "format": "int32"
+          }
+        }
+      },
+      "Error-response": {
+        "required": [
+          "Order"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Errorresponse_Response"
+          }
+        }
+      },
+      "ThreedsVer2": {
+        "properties": {
+          "term_url": {
+            "type": "string",
+            "description": "URL для получения CRes при прохождении challenge-flow сценария"
+          },
+          "browser_info": {
+            "type": "object",
+            "description": "Объект содержащий информацию и браузере Пользователя"
+          },
+          "accept_header": {
+            "type": "string",
+            "description": "Содержимое HTTP-заголовков, отправленных в систему интернет-эквайринга из браузера клиента. Максимальное значение – 2048 символов. Например, application/json,application/jose;charset=utf-8"
+          },
+          "color_depth": {
+            "maxLength": 2,
+            "type": "string",
+            "description": "Значение, представляющее битовую глубину цветовой палитры для отображения изображений, в битах на пиксель. Например, 24 (screen.colorDepth)"
+          },
+          "java_enabled": {
+            "type": "boolean",
+            "description": "Возможность выполнять java в браузере (navigator.javaEnabled)"
+          },
+          "javascript_enabled": {
+            "type": "boolean",
+            "description": "Признак возможности выполнения JavaScript в браузере держателя карты"
+          },
+          "language": {
+            "maxLength": 8,
+            "type": "string",
+            "description": "Язык браузера, указанный по стандарту IETF BCP47. Например, ru-RU"
+          },
+          "height": {
+            "type": "string",
+            "description": "Общая высота (в пикселях) экрана, отображаемо го держателю карты. Максимальное значение – 6 символов. Например, 1080 (screen.height)"
+          },
+          "width": {
+            "type": "string",
+            "description": "Общая ширина (в пикселях) экрана, отображаемого держателю карты. Максимальное значение – 6 символов. Например, 1920 (screen.width)"
+          },
+          "timezone": {
+            "maxLength": 5,
+            "type": "string",
+            "description": "Разница во времени между временем по UTC и местным временем (браузера) пользователя в минутах. Например, если UTC -5, то необходимо указать +300, а если UTC +5, то необходимо указать -300"
+          },
+          "useragent": {
+            "maxLength": 2048,
+            "type": "string",
+            "description": "Содержимое HTTP-заголовка User-Agent. Например: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
+          },
+          "window-height": {
+            "type": "string",
+            "description": "Высота окна в браузере (в пикселях), в котором будет отображаться страница для ввода аутентификационных данных (например, страница ввода одноразового пароля). Оптимальное значение для десктопного браузера – 500."
+          },
+          "windows-width": {
+            "type": "string",
+            "description": "Ширина окна в браузере (в пикселях), в котором будет отображаться страница для ввода аутентификационных данных (например, страница ввода одноразового пароля). Оптимальное значение для десктопного браузера – 600."
+          }
+        }
+      },
+      "chequeStatus": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Идентификатор документа"
+          },
+          "deviceSN": {
+            "type": "string",
+            "description": "Заводской номер устройства, пробившего чек"
+          },
+          "deviceRN": {
+            "type": "string",
+            "description": "Регистрационный номер устройства, пробившего чек"
+          },
+          "fsNumber": {
+            "type": "string",
+            "description": "Номер фискального накопителя"
+          },
+          "ofdName": {
+            "type": "string",
+            "description": "Наименование ОФД"
+          },
+          "ofdWebsite": {
+            "type": "string",
+            "description": "Web-сайт ОФД"
+          },
+          "ofdInn": {
+            "type": "string",
+            "description": "ИНН ОФД"
+          },
+          "fnsWebsite": {
+            "type": "string",
+            "description": "Web-сайт ФНС"
+          },
+          "companyINN": {
+            "type": "string",
+            "description": "ИНН пользователя"
+          },
+          "companyName": {
+            "type": "string",
+            "description": "Наименование пользователя"
+          },
+          "documentNumber": {
+            "type": "integer",
+            "description": "Номер ФД"
+          },
+          "shiftNumber": {
+            "type": "integer",
+            "description": "Номер смены"
+          },
+          "documentIndex": {
+            "type": "integer",
+            "description": "Номер чека за смену"
+          },
+          "processedAt": {
+            "type": "string",
+            "description": "Время регистрации фискального документа в ФН"
+          },
+          "content": {
+            "$ref": "#/components/schemas/chequeStatus_content"
+          }
+        }
+      },
+      "P2PThreedsVer2": {
+        "required": [
+          "ThreedsVer2",
+          "Ver3Ds"
+        ],
+        "properties": {
+          "ThreedsVer2": {
+            "type": "object",
+            "description": "Объект, необходимый при авторизации 3-D Secure версии 2",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ThreedsVer2"
+              }
+            ]
+          },
+          "Res": {
+            "type": "string",
+            "description": "Шифрованная строка, содержащая результаты 3-D Secure аутентификации (Pares или Cres)"
+          },
+          "Ver3Ds": {
+            "type": "integer",
+            "description": "1 - 3-D Security версии 1, 2 - 3-D Security версии 2",
+            "enum": [
+              1,
+              2
+            ]
+          }
+        }
+      },
+      "P2PThreedsVer1": {
+        "required": [
+          "Ver3Ds"
+        ],
+        "properties": {
+          "Res": {
+            "type": "string",
+            "description": "Шифрованная строка, содержащая результаты 3-D Secure аутентификации (Pares или Cres)"
+          },
+          "Ver3Ds": {
+            "type": "integer",
+            "description": "1 - 3-D Security версии 1, 2 - 3-D Security версии 2",
+            "enum": [
+              1,
+              2
+            ]
+          }
+        }
+      },
+      "P2PNON3DS": {
+        "required": [
+          "OrderId"
+        ],
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "c01fdf17-5587-4c77-b3d4-4679a9ea6909"
+          },
+          "Card": {
+            "type": "object",
+            "description": "Параметры карты",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Auth-request-card"
+              },
+              {
+                "$ref": "#/components/schemas/Auth-request-token"
+              },
+              {
+                "$ref": "#/components/schemas/Auth-request-encrypted"
+              }
+            ]
+          },
+          "ThreeDS": {
+            "type": "object",
+            "description": "Данные для 3-D Security авторизации",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/P2PThreedsVer2"
+              },
+              {
+                "$ref": "#/components/schemas/P2PThreedsVer1"
+              }
+            ]
+          }
+        }
+      },
+      "P2P3DS": {
+        "required": [
+          "OrderId"
+        ],
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "c01fdf17-5587-4c77-b3d4-4679a9ea6909"
+          },
+          "Card": {
+            "type": "object",
+            "description": "Параметры карты",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Auth-request-card"
+              },
+              {
+                "$ref": "#/components/schemas/Auth-request-token"
+              },
+              {
+                "$ref": "#/components/schemas/Auth-request-encrypted"
+              }
+            ]
+          },
+          "ThreeDS": {
+            "type": "object",
+            "description": "Данные для 3-D Security авторизации",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/P2PThreedsVer2"
+              },
+              {
+                "$ref": "#/components/schemas/P2PThreedsVer1"
+              }
+            ]
+          }
+        }
+      },
+      "create_SupplierInfo": {
+        "type": "object",
+        "properties": {
+          "PhoneNumbers": {
+            "type": "array",
+            "description": "Телефон(ы) поставщика",
+            "items": {
+              "type": "string",
+              "example": "79001234567"
+            }
+          },
+          "Name": {
+            "type": "string",
+            "description": "Наименование поставщика",
+            "example": "Склад"
+          }
+        }
+      },
+      "create_Items": {
+        "properties": {
+          "Quantity": {
+            "type": "integer",
+            "description": "Количество предмета расчета",
+            "format": "uint32",
+            "example": 1
+          },
+          "Name": {
+            "maxLength": 128,
+            "type": "string",
+            "description": "Наименование товара/услуги, не более 128 символов",
+            "example": "услуга1"
+          },
+          "Price": {
+            "type": "integer",
+            "description": "Сумма блокировки в минимальных единицах валюты (копейках)",
+            "format": "uint64",
+            "example": 300
+          },
+          "Tax": {
+            "type": "integer",
+            "description": "Ставка НДС. Целое число от 1 до 6.В случае отсутствия в запросе, значение берется из настроек терминала 1 – ставка НДС 20% 2 – ставка НДС 10% 3 – ставка НДС расч. 20/120 4 – ставка НДС расч. 10/110 5 – ставка НДС 0% 6 – НДС не облагается",
+            "format": "uint32",
+            "example": 6
+          },
+          "PaymentMethodType": {
+            "type": "integer",
+            "description": "Признак способа расчета: 1 – Предоплата 100%, 2 – Частичная предоплата, 3 – Аванс, 4 – Полный расчет, 5 – Частичный расчет и кредит, 6 – Передача в кредит, 7 – оплата кредита",
+            "format": "uint32",
+            "example": 1
+          },
+          "PaymentSubjectType": {
+            "type": "integer",
+            "description": "Признак предмета расчета. Целое число от 1 до 13. В случае отсутствия в запросе, будет передано значение 1 – Товар 2 – Подакцизный товар 3 – Работа 4 – Услуга 5 – Ставка азартной игры 6 – Выигрыш азартной игры 7 – Лотерейный билет 8 – Выигрыш лотереи 9 – Предоставление РИД 10 - Платеж 11 – Агентское вознаграждение 12 – Выплата 13 – Иной предмет расчета ",
+            "format": "uint32",
+            "example": 1
+          },
+          "SupplierINN": {
+            "maxLength": 12,
+            "type": "string",
+            "description": "ИНН поставщика",
+            "example": "7743880975"
+          },
+          "SupplierInfo": {
+            "$ref": "#/components/schemas/create_SupplierInfo"
+          },
+          "AgentType": {
+            "type": "integer",
+            "description": "Признак агента по предмету расчета: Битовое поле, где номер бита означает, что оказывающий услугу покупателю (клиенту) пользователь является: 0 – банковский платежный агент 1 – банковский платежный субагент 2 – платежный агент 3 – платежный субагент 4 – поверенный 5 – комиссионер 6 – иной агент ",
+            "format": "uint32",
+            "example": 2
+          }
+        }
+      },
+      "create_Buyer": {
+        "type": "object",
+        "properties": {
+          "Fullname": {
+            "type": "string",
+            "description": "ФИО покупателя",
+            "example": "Иванов И. И."
+          },
+          "Email": {
+            "type": "string",
+            "description": "Адрес электронной почты",
+            "example": "ivanov@gmail.com"
+          },
+          "Phone": {
+            "type": "string",
+            "description": "Номер телефона",
+            "example": "79998887766"
+          },
+          "FirstName": {
+            "type": "string",
+            "description": "Имя",
+            "example": "Иван"
+          },
+          "LastName": {
+            "type": "string",
+            "description": "Фамилия",
+            "example": "Иванов"
+          },
+          "MiddleName": {
+            "type": "string",
+            "description": "Отчество",
+            "example": "Иванович"
+          },
+          "Birth": {
+            "type": "string",
+            "description": "Дата рождения",
+            "example": "1.01.1970"
+          },
+          "Street": {
+            "type": "string",
+            "description": "Улица",
+            "example": "Ленина"
+          },
+          "Address": {
+            "type": "string",
+            "description": "Номер дома, квартира",
+            "example": "д.11, кв.7"
+          },
+          "City": {
+            "type": "string",
+            "description": "Город проживания",
+            "example": "Москва"
+          },
+          "Country": {
+            "type": "string",
+            "description": "Страна проживания",
+            "example": "Россия"
+          },
+          "Postcode": {
+            "type": "string",
+            "description": "Индекс",
+            "example": "143005"
+          }
+        },
+        "description": "Информация о покупателе"
+      },
+      "create_UserData": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Ключ",
+            "example": "key"
+          },
+          "value": {
+            "type": "string",
+            "description": "Значение",
+            "example": "value"
+          }
+        },
+        "description": "Пользовательские данные"
+      },
+      "create_body": {
+        "required": [
+          "Amount",
+          "Currency",
+          "MerchantOrderId",
+          "PaymentTypes"
+        ],
+        "type": "object",
+        "properties": {
+          "MerchantOrderId": {
+            "type": "string",
+            "description": "Идентификатор платежа в системе Продавца",
+            "example": "test31052316141"
+          },
+          "Currency": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Код валюты ISO 4217",
+            "example": "643"
+          },
+          "PaymentTypes": {
+            "type": "array",
+            "description": "Типы оплат, один или несколько. Если массив пустой, то все",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CARD",
+                "APPLE",
+                "GOOGLE",
+                "SAMSUNG",
+                "IPS"
+              ]
+            },
+            "default": [
+              "CARD",
+              "APPLE",
+              "GOOGLE",
+              "SAMSUNG",
+              "IPS"
+            ]
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма блокировки в минимальных единицах валюты (копейках)",
+            "format": "uint64",
+            "example": 300
+          },
+          "CalculationType": {
+            "type": "integer",
+            "description": "Тип оплаты: 1 – сумма по чеку безналичными, 2 – сумма по чеку предоплатой (зачетом аванса и (или) предыдущих платежей). По умолчанию 2 ",
+            "format": "uint32",
+            "example": 1,
+            "enum": [
+              1,
+              2
+            ]
+          },
+          "LifeTime": {
+            "type": "integer",
+            "description": "Срок действия сессии (в секундах), по истечении которого оплата по данной сессии будет невозможна. Если не передан, время жизни сессии устанавливается равным одной неделе",
+            "format": "uint32",
+            "example": 600
+          },
+          "Items": {
+            "type": "array",
+            "description": "Список наименований товаров/услуг для отправки в ОФД (54-ФЗ).  Общая сумма всех товаров должна соответствовать сумме Amount в Payments.",
+            "items": {
+              "$ref": "#/components/schemas/create_Items"
+            }
+          },
+          "Buyer": {
+            "$ref": "#/components/schemas/create_Buyer"
+          },
+          "UserData": {
+            "$ref": "#/components/schemas/create_UserData"
+          },
+          "SettlementAddress": {
+            "maxLength": 243,
+            "type": "string",
+            "description": "Адрес расчётов",
+            "example": "ж.д.Вокзал"
+          },
+          "SettlementPlace": {
+            "maxLength": 243,
+            "type": "string",
+            "description": "Место расчётов",
+            "example": "Платформа 1"
+          },
+          "AdditionalAttribute": {
+            "maxLength": 16,
+            "type": "string",
+            "description": "Дополнительный реквезит чека (БСО)",
+            "example": "12345678"
+          },
+          "Cashier": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "Кассир",
+            "example": "Петров"
+          },
+          "CallbackUrl": {
+            "type": "string",
+            "description": "URL REST API метода для передачи статуса операции",
+            "example": "https://api-receipt-stage.mapcard.pro/v1/callback"
+          }
+        }
+      },
+      "inline_response_200": {
+        "required": [
+          "Order",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/inline_response_200_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/inline_response_200_Order"
+          }
+        }
+      },
+      "inline_response_400": {
+        "required": [
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/inline_response_400_Response"
+          }
+        }
+      },
+      "authorize_body": {
+        "type": "object",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/Auth-FirstRequest"
+          },
+          {
+            "$ref": "#/components/schemas/Auth3DSv1-SecondRequest"
+          },
+          {
+            "$ref": "#/components/schemas/Auth3DSv2-SecondRequest"
+          }
+        ]
+      },
+      "inline_response_200_1": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/Auth-responseNON3DS-FirstRequest"
+          },
+          {
+            "$ref": "#/components/schemas/Auth-response3DSv1-FirstRequest"
+          },
+          {
+            "$ref": "#/components/schemas/Auth-response3DSv1-SecondRequest"
+          },
+          {
+            "$ref": "#/components/schemas/Auth-response3DSv2-FirstRequest"
+          },
+          {
+            "$ref": "#/components/schemas/Auth-response3DSv2-SecondRequest"
+          }
+        ]
+      },
+      "charge_body": {
+        "required": [
+          "Amount",
+          "OrderId"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "c01fdf17-5587-4c77-b3d4-4679a9ea6909"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма блокировки в минимальных единицах валюты (копейках)",
+            "format": "uint64",
+            "example": 1000
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "required": [
+          "Order",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Order"
+          },
+          "Charge": {
+            "$ref": "#/components/schemas/inline_response_200_2_Charge"
+          }
+        }
+      },
+      "refund_body": {
+        "required": [
+          "Amount",
+          "OrderId"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "c01fdf17-5587-4c77-b3d4-4679a9ea6909"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма блокировки в минимальных единицах валюты (копейках)",
+            "format": "uint64",
+            "example": 1000
+          }
+        }
+      },
+      "inline_response_200_3": {
+        "required": [
+          "Order",
+          "Refund",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Order"
+          },
+          "Refund": {
+            "$ref": "#/components/schemas/inline_response_200_3_Refund"
+          }
+        }
+      },
+      "payout_body": {
+        "required": [
+          "Amount",
+          "OrderId"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "c01fdf17-5587-4c77-b3d4-4679a9ea6909"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма блокировки в минимальных единицах валюты (копейках)",
+            "format": "uint64",
+            "example": 1000
+          },
+          "Card": {
+            "type": "object",
+            "description": "Параметры карты",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Request-card"
+              },
+              {
+                "$ref": "#/components/schemas/Auth-request-token"
+              },
+              {
+                "$ref": "#/components/schemas/Auth-request-encrypted"
+              }
+            ]
+          }
+        }
+      },
+      "inline_response_200_4": {
+        "required": [
+          "Card",
+          "Order",
+          "Payout",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Order"
+          },
+          "Payout": {
+            "$ref": "#/components/schemas/inline_response_200_4_Payout"
+          },
+          "Card": {
+            "$ref": "#/components/schemas/inline_response_200_4_Card"
+          }
+        }
+      },
+      "p2p_body": {
+        "type": "object",
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/P2PNON3DS"
+          },
+          {
+            "$ref": "#/components/schemas/P2P3DS"
+          }
+        ]
+      },
+      "inline_response_200_5": {
+        "required": [
+          "Order"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Order"
+          },
+          "Authorize": {
+            "$ref": "#/components/schemas/AuthresponseNON3DSFirstRequest_Authorize"
+          },
+          "ThreeDS": {
+            "$ref": "#/components/schemas/inline_response_200_5_ThreeDS"
+          },
+          "Card": {
+            "$ref": "#/components/schemas/inline_response_200_4_Card"
+          }
+        }
+      },
+      "void_body": {
+        "required": [
+          "OrderId"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API"
+          }
+        }
+      },
+      "inline_response_200_6": {
+        "required": [
+          "Order",
+          "Response",
+          "Void"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Order"
+          },
+          "Void": {
+            "$ref": "#/components/schemas/inline_response_200_6_Void"
+          }
+        }
+      },
+      "qrcData_body": {
+        "required": [
+          "Amount",
+          "OrderId",
+          "QrcType"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Индекс заказа в Payment API",
+            "example": "4dbe8beb-96f1-4282-966c-9a35a3cebdbe"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма блокировки в минимальных единицах валюты (копейках)",
+            "format": "uint64",
+            "example": 1000
+          },
+          "QrcType": {
+            "maxLength": 2,
+            "type": "string",
+            "description": "Тип ссылки СБП: 01 - QR-Static (Многоразовая Платежная ссылка СБП) 02 - QR-Dynamic (Одноразовая Платежная ссылка СБП)",
+            "example": "2"
+          },
+          "TemplateVersion": {
+            "maxLength": 2,
+            "type": "string",
+            "description": "Версия payload 01 - Версия 1",
+            "example": "1"
+          },
+          "QrTtl": {
+            "type": "string",
+            "description": "Срок жизни Функциональной ссылки СБП в минутах. Минимальное допустимое значение - 1. Максимальное допустимое значение - 129 600 (90 дней). ",
+            "example": "60"
+          }
+        }
+      },
+      "inline_response_200_7": {
+        "required": [
+          "Order",
+          "Qrc",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/inline_response_200_7_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/inline_response_200_7_Order"
+          },
+          "Qrc": {
+            "$ref": "#/components/schemas/inline_response_200_7_Qrc"
+          }
+        }
+      },
+      "get_body": {
+        "required": [
+          "OrderId"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Идентификатор платежа в системе Продавца",
+            "example": "93cb3bc5-f20c-4c16-b8b0-4cd642966958"
+          }
+        }
+      },
+      "inline_response_200_8": {
+        "required": [
+          "Order",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/inline_response_200_Response"
+          },
+          "Order": {
+            "$ref": "#/components/schemas/inline_response_200_8_Order"
+          }
+        }
+      },
+      "chequeStatus_body": {
+        "required": [
+          "ChequeContent"
+        ],
+        "type": "object",
+        "properties": {
+          "ChequeContent": {
+            "description": "Объект электронного чека",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/chequeStatus"
+              }
+            ]
+          }
+        }
+      },
+      "inline_response_200_9": {
+        "required": [
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          }
+        }
+      },
+      "inline_response_200_10": {
+        "required": [
+          "PublicKey",
+          "Response"
+        ],
+        "type": "object",
+        "properties": {
+          "Response": {
+            "$ref": "#/components/schemas/Authresponse3DSv1FirstRequest_Response"
+          },
+          "PublicKey": {
+            "$ref": "#/components/schemas/inline_response_200_10_PublicKey"
+          }
+        }
+      },
+      "Auth3DSv1SecondRequest_ThreeDS": {
+        "type": "object",
+        "properties": {
+          "Res": {
+            "type": "string",
+            "description": "Шифрованная строка, содержащая результаты 3-D Secure аутентификации (Pares или Cres)"
+          },
+          "Ver3Ds": {
+            "type": "integer",
+            "description": "3-D Security версии 1",
+            "enum": [
+              1
+            ]
+          }
+        },
+        "description": "Данные для 3-D Security авторизации"
+      },
+      "Auth3DSv1SecondRequest_Card": {
+        "type": "object",
+        "properties": {
+          "Pan": {
+            "type": "string",
+            "description": "Номер карты",
+            "example": "4111111111111111"
+          },
+          "ExpiryMonth": {
+            "type": "integer",
+            "description": "Месяц истечения срока действия карты",
+            "format": "uint16",
+            "example": 12
+          },
+          "ExpiryYear": {
+            "type": "integer",
+            "description": "Год истечения срока действия карты.",
+            "format": "uint16",
+            "example": 23
+          },
+          "Cvv": {
+            "type": "string",
+            "description": "CVC2/CVV2. Параметр является опциональным.",
+            "example": "123"
+          },
+          "Holder": {
+            "type": "string",
+            "description": "Фамилия и имя держателя карты",
+            "example": "Ivan Ivanov"
+          }
+        },
+        "description": "Параметры карты"
+      },
+      "Auth3DSv2SecondRequest_ThreeDS": {
+        "type": "object",
+        "properties": {
+          "ThreedsVer2": {
+            "type": "object",
+            "description": "Объект, необходимый при авторизации 3-D Secure версии 2",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ThreedsVer2"
+              }
+            ]
+          },
+          "Ver3Ds": {
+            "type": "integer",
+            "description": "3-D Security версии 2",
+            "enum": [
+              2
+            ]
+          }
+        },
+        "description": "Данные для 3-D Security авторизации"
+      },
+      "AuthresponseNON3DSFirstRequest_Response": {
+        "required": [
+          "Success"
+        ],
+        "type": "object",
+        "properties": {
+          "Success": {
+            "type": "boolean",
+            "description": "Результат выполнения метода",
+            "enum": [
+              true
+            ]
+          }
+        },
+        "description": "Результат выполнения метода"
+      },
+      "AuthresponseNON3DSFirstRequest_Order": {
+        "required": [
+          "Amount",
+          "MerchantOrderId",
+          "OrderId",
+          "Status"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Внутренний индекс заказа"
+          },
+          "MerchantOrderId": {
+            "type": "string",
+            "description": "Индекс заказа в системе продавца"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма операции",
+            "format": "uint64"
+          },
+          "Currency": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Код валюты ISO 4217"
+          },
+          "Status": {
+            "type": "string",
+            "description": "Текущий статус заказа"
+          }
+        },
+        "description": "Информация о заказе"
+      },
+      "AuthresponseNON3DSFirstRequest_Authorize": {
+        "required": [
+          "Rrn"
+        ],
+        "type": "object",
+        "properties": {
+          "Rrn": {
+            "type": "string",
+            "description": "Уникальный идентификатор банковской транзакции"
+          }
+        },
+        "description": "Объект Authorize"
+      },
+      "AuthresponseNON3DSFirstRequest_Card": {
+        "required": [
+          "Id",
+          "PanMask",
+          "Token"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "Внутренний идентификатор карты",
+            "format": "uint64"
+          },
+          "Holder": {
+            "type": "string",
+            "description": "Фамилия и имя держателя карты"
+          },
+          "PanMask": {
+            "type": "string",
+            "description": "Маскированный номер карты"
+          },
+          "ExpiryMonth": {
+            "type": "string",
+            "description": "Месяц истечения срока действия карты"
+          },
+          "ExpiryYear": {
+            "type": "string",
+            "description": "Год истечения срока действия карты."
+          },
+          "CardBrand": {
+            "type": "string",
+            "description": "Тип платежной системы"
+          },
+          "CardType": {
+            "type": "string",
+            "description": "Тип карты"
+          },
+          "BankName": {
+            "type": "string",
+            "description": "Наименование банка-эмитента"
+          },
+          "BankCountryCode": {
+            "type": "string",
+            "description": "Код страны банка-эмитента"
+          },
+          "Enrollment": {
+            "type": "boolean",
+            "description": "Признак вовлеченности карты в технологию 3D Secure"
+          },
+          "Token": {
+            "type": "string",
+            "description": "uid карты"
+          }
+        },
+        "description": "Объект для возвращаемого токена карты"
+      },
+      "Authresponse3DSv1FirstRequest_Response": {
+        "required": [
+          "Success"
+        ],
+        "type": "object",
+        "properties": {
+          "Success": {
+            "type": "boolean",
+            "description": "Признак успешности выполнения операции",
+            "enum": [
+              true
+            ]
+          }
+        },
+        "description": "Результат выполнения метода"
+      },
+      "Authresponse3DSv1FirstRequest_Order": {
+        "required": [
+          "Amount",
+          "MerchantOrderId",
+          "OrderId",
+          "Status"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Внутренний индекс заказа"
+          },
+          "MerchantOrderId": {
+            "type": "string",
+            "description": "Индекс заказа в системе продавца"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма операции",
+            "format": "uint64"
+          },
+          "Currency": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Код валюты ISO 4217"
+          },
+          "Status": {
+            "type": "string",
+            "description": "Текущий статус заказа"
+          }
+        },
+        "description": "Информация о покупателе"
+      },
+      "Authresponse3DSv1FirstRequest_ThreeDS": {
+        "required": [
+          "AcsUrl",
+          "Req",
+          "ThreeDSKey",
+          "Ver3Ds"
+        ],
+        "type": "object",
+        "properties": {
+          "AcsUrl": {
+            "type": "string",
+            "description": "URL службы подтверждения",
+            "example": "https://api-stage.mapcard.pro/acs/2N1ZD83O7onzp2eLuIoDhuYgPbb"
+          },
+          "Req": {
+            "type": "string",
+            "description": "Запрос на аутентификацию 3-D Secure (Pareq или Creq)",
+            "example": "2N1ZD41RQZjm0Mc2Eavfb3VkHTs"
+          },
+          "Ver3Ds": {
+            "type": "integer",
+            "description": "1 - 3-D Security версии 1, 2 - 3-D Security версии 2",
+            "enum": [
+              1
+            ]
+          },
+          "ThreeDSKey": {
+            "type": "string",
+            "description": "Уникальный идентификатор транзакции 3-D Security",
+            "example": "2N1ZD83O7onzp2eLuIoDhuYgPbb"
+          }
+        },
+        "description": "Ответы ACS сервера"
+      },
+      "Authresponse3DSv1FirstRequest_Card": {
+        "required": [
+          "Id",
+          "Token"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "Внутренний идентификатор карты",
+            "format": "uint64"
+          },
+          "Token": {
+            "type": "string",
+            "description": "uid карты"
+          }
+        },
+        "description": "Карта"
+      },
+      "Authresponse3DSv2FirstRequest_ThreeDS": {
+        "required": [
+          "AcsUrl",
+          "Req",
+          "ThreeDSKey",
+          "Ver3Ds"
+        ],
+        "type": "object",
+        "properties": {
+          "AcsUrl": {
+            "type": "string",
+            "description": "URL службы подтверждения",
+            "example": "https://api-stage.mapcard.pro/acs/2N1ZD83O7onzp2eLuIoDhuYgPbb"
+          },
+          "Req": {
+            "type": "string",
+            "description": "Запрос на аутентификацию 3-D Secure (Pareq или Creq)",
+            "example": "2N1ZD41RQZjm0Mc2Eavfb3VkHTs"
+          },
+          "Ver3Ds": {
+            "type": "integer",
+            "description": "1 - 3-D Security версии 1, 2 - 3-D Security версии 2",
+            "enum": [
+              2
+            ]
+          },
+          "ThreeDSKey": {
+            "type": "string",
+            "description": "Уникальный идентификатор транзакции 3-D Security",
+            "example": "2N1ZD83O7onzp2eLuIoDhuYgPbb"
+          }
+        },
+        "description": "Ответы ACS сервера"
+      },
+      "Errorresponse_Response": {
+        "required": [
+          "Success"
+        ],
+        "type": "object",
+        "properties": {
+          "Success": {
+            "type": "boolean",
+            "description": "Признак успешности выполнения операции",
+            "example": false
+          },
+          "ErrCode": {
+            "type": "string",
+            "description": "Код ошибки (в случае ее наличия)"
+          },
+          "ErrMessage": {
+            "type": "string",
+            "description": "Описание ошибки"
+          }
+        },
+        "description": "Результат выполнения метода"
+      },
+      "chequeStatus_content_positions_suplierInfo": {
+        "type": "object",
+        "properties": {
+          "phoneNumbers": {
+            "type": "array",
+            "description": "Телефоны поставщика",
+            "items": {
+              "type": "string"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Наименование поставщика"
+          }
+        },
+        "description": "Данные поставщика"
+      },
+      "chequeStatus_content_positions": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "description": "Количество предмета расчета"
+          },
+          "price": {
+            "type": "integer",
+            "description": "Цена за единицу предмета расчета с учетом скидок и наценок"
+          },
+          "tax": {
+            "type": "integer",
+            "description": "Ставка НДС: 1 – ставка НДС 20%, 2 – ставка НДС 10%, 3 – ставка НДС расч. 20/120, 4 – ставка НДС расч. 10/110, 5 – ставка НДС 0%, 6 – НДС не облагается, 7 - ставка НДС 12%"
+          },
+          "text": {
+            "type": "string",
+            "description": "Наименование предмета расчета"
+          },
+          "paymentMethodType": {
+            "type": "integer",
+            "description": "Признак способа расчета: 1 – Предоплата 100%, 2 – Частичная предоплата, 3 – Аванс, 4 – Полный расчет, 5 – Частичный расчет и кредит, 6 – Передача в кредит, 7 – оплата кредита"
+          },
+          "paymentSubjectType": {
+            "type": "integer",
+            "description": "Признак предмета расчета: 1 – Товар, 2 – Подакцизный товар, 3 – Работа, 4 – Услуга, 5 – Ставка азартной игры, 6 – Выигрыш азартной игры, 7 – Лотерейный билет, 8 – Выигрыш лотереи, 9 – Предоставление РИД, 10 – Платеж, 11 – Агентское вознаграждение, 12 – Выплата, 13 – Иной предмет расчета, 14 – Имущественное право, 15 – Внереализационный доход, 16 – Иные платежи и взносы, 17 – Торговый сбор, 18 – Курортный сбор, 19 – Залог"
+          },
+          "suplierINN": {
+            "type": "string",
+            "description": "ИНН поставщика"
+          },
+          "suplierInfo": {
+            "$ref": "#/components/schemas/chequeStatus_content_positions_suplierInfo"
+          },
+          "agentType": {
+            "type": "integer",
+            "description": "Признак агента по предмету расчета:Битовое поле, где номер бита означает, что оказывающий услугу покупателю (клиенту) пользователь является: 0 – банковский платежный агент 1 – банковский платежный субагент 2 – платежный агент 3 – платежный субагент 4 – поверенный 5 – комиссионер 6 – иной агент"
+          }
+        },
+        "description": "Список предметов расчета"
+      },
+      "chequeStatus_content_checkClose": {
+        "type": "object",
+        "properties": {
+          "payments": {
+            "type": "array",
+            "description": "Массив Оплаты",
+            "items": {
+              "$ref": "#/components/schemas/CheckPayment"
+            }
+          },
+          "taxationSystem": {
+            "type": "integer",
+            "description": "Система налогообложения"
+          }
+        }
+      },
+      "chequeStatus_content": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "integer",
+            "description": "Признак расчета: 1. Приход, 2. Возврат прихода, 3. Расход, 4. Возврат расхода"
+          },
+          "positions": {
+            "$ref": "#/components/schemas/chequeStatus_content_positions"
+          },
+          "checkClose": {
+            "$ref": "#/components/schemas/chequeStatus_content_checkClose"
+          },
+          "customerContact": {
+            "type": "string",
+            "description": "Телефон или электронный адрес покупателя"
+          },
+          "supplierPhoneNumbers": {
+            "type": "array",
+            "description": "Телефоны поставщика",
+            "items": {
+              "type": "string"
+            }
+          },
+          "settlementAddress": {
+            "type": "string",
+            "description": "Адрес расчетов"
+          },
+          "settlementPlace": {
+            "type": "string",
+            "description": "Место расчетов"
+          },
+          "additionalAttribute": {
+            "type": "string",
+            "description": "Дополнительный реквизит чека (БСО)"
+          },
+          "cashier": {
+            "type": "string",
+            "description": "Кассир"
+          }
+        },
+        "description": "Объект CheckContentResp"
+      },
+      "inline_response_200_Response": {
+        "required": [
+          "Success"
+        ],
+        "type": "object",
+        "properties": {
+          "Success": {
+            "type": "boolean",
+            "description": "Признак успешности выполнения операции",
+            "example": true,
+            "enum": [
+              true
+            ]
+          }
+        },
+        "description": "Результат выполнения метода"
+      },
+      "inline_response_200_Order": {
+        "required": [
+          "Amount",
+          "MerchantOrderId",
+          "OrderId",
+          "Status"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Внутренний индекс заказа",
+            "example": "4dbe8beb-96f1-4282-966c-9a35a3cebdbe"
+          },
+          "MerchantOrderId": {
+            "type": "string",
+            "description": "Индекс заказа в системе продавца",
+            "example": "test31052316141"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма операции",
+            "format": "uint64",
+            "example": 300
+          },
+          "Currency": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Код валюты ISO 4217",
+            "example": "643"
+          },
+          "Status": {
+            "type": "string",
+            "description": "Текущий статус заказа",
+            "example": "CREATED"
+          }
+        },
+        "description": "Информация о заказе"
+      },
+      "inline_response_400_Response": {
+        "required": [
+          "ErrCode",
+          "ErrMessage",
+          "Success"
+        ],
+        "type": "object",
+        "properties": {
+          "Success": {
+            "type": "boolean",
+            "description": "Признак успешности выполнения операции",
+            "example": false
+          },
+          "ErrCode": {
+            "type": "string",
+            "description": "Код ошибки",
+            "example": "NOT_AUTHED"
+          },
+          "ErrMessage": {
+            "type": "string",
+            "description": "Описание ошибки",
+            "example": "Error authentification"
+          }
+        },
+        "description": "Результат выполнения метода"
+      },
+      "inline_response_200_2_Charge": {
+        "required": [
+          "Rrn"
+        ],
+        "type": "object",
+        "properties": {
+          "Rrn": {
+            "type": "string",
+            "description": "Уникальный идентификатор банковской транзакции"
+          }
+        },
+        "description": "Объект Charge"
+      },
+      "inline_response_200_3_Refund": {
+        "required": [
+          "NewAmount"
+        ],
+        "type": "object",
+        "properties": {
+          "NewAmount": {
+            "type": "integer",
+            "description": "Сумма остатка по операции",
+            "format": "uint64"
+          }
+        },
+        "description": "Объект Refund"
+      },
+      "inline_response_200_4_Payout": {
+        "required": [
+          "Rrn"
+        ],
+        "type": "object",
+        "properties": {
+          "Rrn": {
+            "type": "string",
+            "description": "Уникальный идентификатор банковской транзакции"
+          }
+        },
+        "description": "Объект Payout"
+      },
+      "inline_response_200_4_Card": {
+        "required": [
+          "Id",
+          "PanMask",
+          "Token"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "Внутренний идентификатор карты",
+            "format": "uint64"
+          },
+          "Holder": {
+            "type": "string",
+            "description": "Фамилия и имя держателя карты"
+          },
+          "PanMask": {
+            "type": "string",
+            "description": "Маскированный номер карты"
+          },
+          "ExpiryMonth": {
+            "type": "integer",
+            "description": "Месяц истечения срока действия карты",
+            "format": "uint16"
+          },
+          "ExpiryYear": {
+            "type": "integer",
+            "description": "Год истечения срока действия карты",
+            "format": "uint16"
+          },
+          "CardBrand": {
+            "type": "string",
+            "description": "Тип платежной системы"
+          },
+          "CardType": {
+            "type": "string",
+            "description": "Тип карты"
+          },
+          "BankName": {
+            "type": "string",
+            "description": "Наименование банка-эмитента"
+          },
+          "BankCountryCode": {
+            "type": "string",
+            "description": "Код страны банка-эмитента"
+          },
+          "Enrollment": {
+            "type": "boolean",
+            "description": "Признак вовлеченности карты в технологию 3D Secure"
+          },
+          "Token": {
+            "type": "string",
+            "description": "uid карты"
+          }
+        },
+        "description": "Объект для возвращаемого токена карты"
+      },
+      "inline_response_200_5_ThreeDS": {
+        "type": "object",
+        "properties": {
+          "AcsUrl": {
+            "type": "string",
+            "description": "URL службы подтверждения"
+          },
+          "Req": {
+            "type": "string",
+            "description": "Запрос на аутентификацию 3-D Secure (Pareq или Creq)"
+          },
+          "Ver3Ds": {
+            "type": "integer",
+            "description": "1 - 3-D Security версии 1, 2 - 3-D Security версии 2"
+          },
+          "ThreeDSKey": {
+            "type": "string",
+            "description": "Уникальный идентификатор транзакции 3-D Security"
+          },
+          "ThreedsMethodURL": {
+            "type": "string",
+            "description": "Адрес (URL/URI) сервера аутентификации 3-D Secure для сбора информации о браузере клиента"
+          },
+          "ThreedsMethodURLData": {
+            "type": "string",
+            "description": "Зашифрованная base64 строка"
+          }
+        },
+        "description": "Ответы ACS сервера"
+      },
+      "inline_response_200_6_Void": {
+        "required": [
+          "Rrn"
+        ],
+        "type": "object",
+        "properties": {
+          "Rrn": {
+            "type": "string",
+            "description": "Уникальный идентификатор банковской транзакции"
+          }
+        },
+        "description": "Объект Void"
+      },
+      "inline_response_200_7_Response": {
+        "required": [
+          "Success"
+        ],
+        "type": "object",
+        "properties": {
+          "Success": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        },
+        "description": "Результат выполнения метода"
+      },
+      "inline_response_200_7_Order": {
+        "required": [
+          "Amount",
+          "Currency",
+          "MerchantOrderId",
+          "OrderId",
+          "Status"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Внутренний индекс заказа"
+          },
+          "MerchantOrderId": {
+            "type": "string",
+            "description": "Индекс заказа в системе продавца"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма операции",
+            "format": "uint64"
+          },
+          "Currency": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Код валюты ISO 4217"
+          },
+          "Status": {
+            "type": "string",
+            "description": "Текущий статус заказа"
+          }
+        },
+        "description": "Информация о покупателе"
+      },
+      "inline_response_200_7_Qrc": {
+        "required": [
+          "Payload",
+          "QrcId"
+        ],
+        "type": "object",
+        "properties": {
+          "QrcId": {
+            "type": "string",
+            "description": "Идентификатор зарегистрированной Платежной или Информационной ссылки СБП"
+          },
+          "Payload": {
+            "type": "string",
+            "description": "Payload зарегистрированной Платежной или Информационной ссылки СБП."
+          }
+        },
+        "description": "Объект Qrc"
+      },
+      "inline_response_200_8_Order_PaymentInfo_Card": {
+        "required": [
+          "Id",
+          "PanMask"
+        ],
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "description": "Внутренний идентификатор карты",
+            "format": "uint64",
+            "example": 1
+          },
+          "Holder": {
+            "type": "string",
+            "description": "Фамилия и имя держателя карты",
+            "example": "Ivan Ivanov"
+          },
+          "PanMask": {
+            "type": "string",
+            "description": "Маскированный номер карты",
+            "example": "411111xxxxx00023"
+          },
+          "ExpiryMonth": {
+            "type": "integer",
+            "description": "Месяц истечения срока действия карты",
+            "format": "uint16",
+            "example": 12
+          },
+          "ExpiryYear": {
+            "type": "integer",
+            "description": "Год истечения срока действия карты.",
+            "format": "uint16",
+            "example": 23
+          },
+          "CardBrand": {
+            "type": "string",
+            "description": "Тип платежной системы",
+            "example": "Mastercard"
+          },
+          "CardType": {
+            "type": "string",
+            "description": "Тип карты",
+            "example": "credit"
+          },
+          "BankName": {
+            "type": "string",
+            "description": "Наименование банка-эмитента",
+            "example": "JPMorgan"
+          },
+          "BankCountryCode": {
+            "type": "string",
+            "description": "Код страны банка-эмитента",
+            "example": "-"
+          },
+          "Enrollment": {
+            "type": "boolean",
+            "description": "Признак вовлеченности карты в технологию 3D Secure",
+            "example": false
+          }
+        },
+        "description": "Информация о карте, которая использовалась для оплаты"
+      },
+      "inline_response_200_8_Order_PaymentInfo": {
+        "required": [
+          "Card"
+        ],
+        "type": "object",
+        "properties": {
+          "Card": {
+            "$ref": "#/components/schemas/inline_response_200_8_Order_PaymentInfo_Card"
+          }
+        },
+        "description": "Информация о типах оплаты"
+      },
+      "inline_response_200_8_Order": {
+        "required": [
+          "Amount",
+          "Currency",
+          "MerchantOrderId",
+          "OrderId",
+          "PaymentInfo",
+          "Status"
+        ],
+        "type": "object",
+        "properties": {
+          "OrderId": {
+            "type": "string",
+            "description": "Внутренний индекс заказа",
+            "example": "4dbe8beb-96f1-4282-966c-9a35a3cebdbe"
+          },
+          "MerchantOrderId": {
+            "type": "string",
+            "description": "Индекс заказа в системе продавца",
+            "example": "testets123"
+          },
+          "Amount": {
+            "type": "integer",
+            "description": "Сумма операции",
+            "format": "uint64",
+            "example": 300
+          },
+          "Currency": {
+            "maxLength": 3,
+            "type": "string",
+            "description": "Код валюты ISO 4217",
+            "example": "643"
+          },
+          "Status": {
+            "type": "string",
+            "description": "Текущий статус заказа",
+            "example": "CHARGED"
+          },
+          "PaymentInfo": {
+            "$ref": "#/components/schemas/inline_response_200_8_Order_PaymentInfo"
+          }
+        },
+        "description": "Информация о покупателе"
+      },
+      "inline_response_200_10_PublicKey": {
+        "required": [
+          "Key"
+        ],
+        "type": "object",
+        "properties": {
+          "Key": {
+            "type": "string",
+            "description": "Ключ"
+          }
+        },
+        "description": "Содержимое ключа"
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "x-api-key",
+        "in": "header"
+      }
+    }
+  }
+}
